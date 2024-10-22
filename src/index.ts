@@ -7,13 +7,13 @@ import { RealFileSystem } from "./adapters/fs.js";
 import type { FileSystem } from "./types/fs.js";
 import type { ProcessOptions } from "./types/program.js";
 
-interface JamaCLIOptions extends ProcessOptions {
+interface MerfCLIOptions extends ProcessOptions {
 	fs?: FileSystem;
 }
 
 export async function jama(
 	dir: string,
-	options: JamaCLIOptions,
+	options: MerfCLIOptions,
 ): Promise<void> {
 	const fs = options.fs || new RealFileSystem();
 
@@ -33,7 +33,7 @@ export async function jama(
 }
 
 program
-	.name("jama")
+	.name("merf")
 	.description("AI-friendly code analysis and documentation tool")
 	.argument("[dir]", "Directory to process", ".")
 	.option("-o, --output <file>", "Output file", "jama-analysis.md")
@@ -41,7 +41,7 @@ program
 		"node_modules",
 		".git",
 	])
-	.action((dir: string, options: JamaCLIOptions) => {
+	.action((dir: string, options: MerfCLIOptions) => {
 		jama(dir, options).catch((error) => {
 			console.error(chalk.red("Error:"), error);
 			process.exit(1);

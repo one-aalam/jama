@@ -1,19 +1,17 @@
-# Jama
+# Merf
 
 A TypeScript CLI tool to aggregate your codebase into a single markdown file for use with AI models.
 
 ## Installation
 
 ```bash
-npm install
-npm run build
-npm link
+npm install -g merf
 ```
 
 ## Usage
 
 ```bash
-jama [directory] -o output.md -i node_modules .git
+merf [directory] -o output.md -i node_modules .git
 ```
 
 Options:
@@ -34,15 +32,15 @@ npm test
 
 Aggregate current directory:
 ```bash
-jama
+merf
 ```
 
 Specify directory and output:
 ```bash
-jama ./my-project -o project.md
+merf ./my-project -o project.md
 ```
 
 Add custom ignore patterns:
 ```bash
-jama -i node_modules .git dist build
+merf -i node_modules .git dist build
 ```

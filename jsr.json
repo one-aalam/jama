@@ -1,5 +1,5 @@
 {
-    "name": "@one-aalam/jama",
+    "name": "@one-aalam/merf",
     "version": "1.0.0",
     "exports": {
       ".": "./src/index.ts"
