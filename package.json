@@ -1,0 +1,84 @@
+{
+  "name": "jama",
+  "version": "1.0.0",
+  "description": "CLI tool to aggregate codebase into markdown",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "jama": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "tsc --noEmit -p tsconfig.json && biome lint --diagnostic-level=error --no-errors-on-unmatched ./src/**/*.ts",
+    "lint:fix": "biome lint --fix --apply-unsafe ./src/**/*.ts",
+    "format": "biome format ./src/**/*.ts",
+    "format:fix": "biome format --fix ./src/**/*.ts",
+    "test": "NODE_OPTIONS='--import=./esm-register.js' node --test src/*.test.ts",
+    "test:coverage": "NODE_OPTIONS='--import=./esm-register.js node --test --experimental-test-coverage src/*.test.ts",
+    "dev": "tsc -w",
+    "release": "npm run build && changeset publish",
+    "version": "changeset version",
+    "prepublishOnly": "npm run build",
+    "prepare": "husky"
+  },
+  "publishConfig": {
+    "@jsr:registry": "https://npm.jsr.io"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/one-aalam/jama.git"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "cli",
+    "code",
+    "markdown",
+    "documentation",
+    "ai",
+    "claude",
+    "gpt"
+  ],
+  "author": "Aftab Alam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/one-aalam/jama/issues"
+  },
+  "homepage": "https://github.com/one-aalam/jama#readme",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "glob": "^11.0.0",
+    "ignore": "^6.0.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@changesets/cli": "^2.27.9",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@types/node": "^22.7.8",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "memfs": "^4.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "lint-staged": {
+    "*.{js,ts,cjs,mjs,d.cts,d.mts,json,jsonc}": [
+      "biome check --write --error-on-warnings --no-errors-on-unmatched"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

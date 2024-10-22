@@ -1,0 +1,7 @@
+{
+    "name": "@one-aalam/jama",
+    "version": "1.0.0",
+    "exports": {
+      ".": "./src/index.ts"
+    }
+}

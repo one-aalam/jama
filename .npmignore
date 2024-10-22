@@ -1,0 +1,15 @@
+.git
+.github
+.husky
+node_modules
+src
+test
+coverage
+.changeset
+*.test.ts
+*.bench.ts
+tsconfig.json
+*.config.js
+.gitignore
+.npmrc
+jsr.json
