@@ -1,6 +1,6 @@
 # Merf
 
-A TypeScript CLI tool to aggregate your codebase into a single markdown file for use with AI models.
+A CLI tool to aggregate your codebase into a single markdown file for use with AI models.
 
 ## Installation
 
