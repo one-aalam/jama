@@ -34,7 +34,7 @@ export async function jama(
 
 program
 	.name("merf")
-	.description("AI-friendly code analysis and documentation tool")
+	.description("A CLI tool to aggregate your codebase into a single markdown file for use with AI models")
 	.argument("[dir]", "Directory to process", ".")
 	.option("-o, --output <file>", "Output file", "merf-analysis.md")
 	.option("-i, --ignore <patterns...>", "Ignore patterns", [
