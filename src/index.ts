@@ -36,7 +36,7 @@ program
 	.name("merf")
 	.description("AI-friendly code analysis and documentation tool")
 	.argument("[dir]", "Directory to process", ".")
-	.option("-o, --output <file>", "Output file", "jama-analysis.md")
+	.option("-o, --output <file>", "Output file", "merf-analysis.md")
 	.option("-i, --ignore <patterns...>", "Ignore patterns", [
 		"node_modules",
 		".git",

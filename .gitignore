@@ -1,5 +1,5 @@
 node_modules
 .DS_Store
 *.log
-jama-analysis.md
+merf-analysis.md
 dist
