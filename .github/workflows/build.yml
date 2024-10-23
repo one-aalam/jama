@@ -39,4 +39,4 @@ jobs:
         #   token: ${{ secrets.AUTO_PAT }}
       - run: git fetch --unshallow --tags
       - uses: ./.github/actions/setup-repo
-      - run: npm release
+      - run: npm run release
