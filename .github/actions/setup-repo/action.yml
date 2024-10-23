@@ -4,7 +4,7 @@ runs:
     - name: 🏗 Setup Node
       uses: actions/setup-node@v4
       with:
-        node-version: '20.x'
+        node-version: 20
         registry-url: ${{ env.REGISTRY_URL || 'https://registry.npmjs.org' }}
 
     - name: 📦 Install dependencies
