@@ -1,6 +1,6 @@
 {
   "name": "merf",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "CLI tool to aggregate codebase into markdown",
   "type": "module",
   "main": "dist/index.js",
