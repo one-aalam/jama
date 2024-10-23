@@ -34,9 +34,9 @@ jobs:
       NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       REGISTRY_URL: 'https://npm.pkg.github.com'
     steps:
-      - uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.AUTO_PAT }}
+      - uses: actions/checkout@v4
+        # with:
+        #   token: ${{ secrets.AUTO_PAT }}
       - run: git fetch --unshallow --tags
       - uses: ./.github/actions/setup-repo
       - run: npm release
