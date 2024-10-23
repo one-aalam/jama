@@ -3,3 +3,4 @@ node_modules
 *.log
 merf-analysis.md
 dist
+.env
