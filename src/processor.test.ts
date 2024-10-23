@@ -8,13 +8,15 @@ import { MemFSAdapter } from "./adapters/memfs.js";
 
 describe("processDirectory", async () => {
 	const testDir = join(process.cwd(), "test-dir");
+	let volume: typeof Volume.prototype;
+  let fs: FileSystem;
 	// Setup before each test
-	const volume = Volume.fromJSON({
+	volume = Volume.fromJSON({
 		[join(testDir, "test.js")]: 'console.log("test");',
 		[join(testDir, "ignore.txt")]: "ignored content",
 		[join(testDir, "subdir/nested.js")]: "const x = 1;",
 	});
-	const fs: FileSystem = new MemFSAdapter(volume);
+	fs = new MemFSAdapter(volume);
 
 	it("should process files in directory", async () => {
 		const files = await processDirectory(fs, testDir, ["*.txt"]);
@@ -61,9 +63,7 @@ describe("processDirectory", async () => {
 
 	it("should handle nested files correctly", async () => {
 		const nestedFile = await fs.readFile(
-			join(testDir, "subdir", "nested.js"),
-			"utf-8",
-		);
+			join(testDir, "subdir", "nested.js"));
 		assert.equal(nestedFile, "const x = 1;");
 	});
 
@@ -113,4 +113,48 @@ describe("processDirectory", async () => {
 		assert(files.some((f) => f.path.includes("special chars/test.js")));
 		assert(files.some((f) => f.path.includes("special-[@]chars/test.js")));
 	});
+
+	it('should respect .gitignore patterns', async () => {
+		const files = {
+		  [join(testDir, '.gitignore')]: `
+			*.log
+			dist
+			temp
+			ignore.txt
+		  `,
+		  [join(testDir, 'src/index.ts')]: 'console.log("included");',
+		  [join(testDir, 'dist/bundle.js')]: 'should be ignored', 
+		  [join(testDir, 'temp/debug.log')]: 'should be ignored',
+		  [join(testDir, 'error.log')]: 'should be ignored'
+		};
+	  
+		volume = Volume.fromJSON(files);
+		fs = new MemFSAdapter(volume);
+	  
+		const processed = await processDirectory(fs, testDir, []);
+		
+		assert.equal(processed.length, 2); // including the `.gitignore` file itself
+		assert(processed.some(f => f.path === 'src/index.ts'));
+		assert(processed.some(f => f.path === '.gitignore'));
+	  });
+	  
+	  it('should combine .gitignore with user patterns', async () => {
+		const files = {
+		  [join(testDir, '.gitignore')]: '*.log',
+		  [join(testDir, 'src/index.ts')]: 'console.log("test");',
+		  [join(testDir, 'src/types.ts')]: 'export type Test = string;',
+		  [join(testDir, 'debug.log')]: 'ignored by gitignore',
+		  [join(testDir, 'tests/test.ts')]: 'should be ignored by user pattern'
+		};
+	  
+		volume = Volume.fromJSON(files);
+		fs = new MemFSAdapter(volume);
+	  
+		const processed = await processDirectory(fs, testDir, ['tests/**']);
+		
+		assert.equal(processed.length, 3);
+		assert(processed.some(f => f.path === 'src/index.ts'));
+		assert(processed.some(f => f.path === 'src/types.ts'));
+		assert(processed.some(f => f.path === '.gitignore'));
+	  });
 });

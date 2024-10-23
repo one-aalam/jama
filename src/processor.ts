@@ -1,14 +1,16 @@
 import { resolve, relative } from "node:path";
-import ignore from "ignore";
 import type { FileSystem } from "./types/fs.js";
 import type { FileData } from "./types/program.js";
+import { IgnoreHandler } from './utils/ignore-handler.js';
 
 export async function processDirectory(
 	fs: FileSystem,
 	dir: string,
-	ignorePatterns: string[],
+	userIgnorePatterns: string[],
 ): Promise<FileData[]> {
-	const ig = ignore.default().add(ignorePatterns);
+	const ignoreHandler = new IgnoreHandler(fs);
+  	await ignoreHandler.getIgnorePatterns(dir, userIgnorePatterns);
+	const ig = ignoreHandler.createIgnore();
 	const files = await fs.glob("**/*", {
 		cwd: dir,
 	});
@@ -19,7 +21,7 @@ export async function processDirectory(
 
 		const fullPath = resolve(dir, file);
 		try {
-			const content = await fs.readFile(fullPath, "utf-8");
+			const content = await fs.readFile(fullPath);
 			const stats = await fs.stat(fullPath);
 
 			fileData.push({
