@@ -31,7 +31,7 @@ jobs:
       packages: write
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       REGISTRY_URL: 'https://npm.pkg.github.com'
     steps:
       - uses: actions/checkout@v4
